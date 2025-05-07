@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         #numberDisplay {
-            font-size: 48px;
+            font-size: 300px;
             font-weight: bold;
             text-align: center;
             margin-top: 20%;
+        }
+        body {
+            cursor: pointer; /* Change cursor to pointer to indicate clickable area */
         }
     </style>
 </head>
@@ -16,6 +19,8 @@
     <div id="numberDisplay"></div>
 
     <script>
+        let intervalId = null;
+
         function getRandomNumber(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
@@ -25,9 +30,31 @@
             numberDisplay.textContent = getRandomNumber(1, 70);
         }
 
-        setInterval(updateNumber, 100); // Update every 100 milliseconds
+        function startAnimation() {
+            if (!intervalId) {
+                intervalId = setInterval(updateNumber, 100); // Update every 100 milliseconds
+            }
+        }
+
+        function pauseAnimation() {
+            clearInterval(intervalId);
+            intervalId = null; // Reset intervalId to indicate that the animation is paused
+        }
+
+        // Add event listener to the entire body to toggle pause/start on click
+        document.body.addEventListener('click', () => {
+            if (intervalId) {
+                pauseAnimation();
+            } else {
+                startAnimation();
+            }
+        });
+
+        // Start the animation initially
+        startAnimation();
     </script>
 </body>
 </html>
+
 
 
